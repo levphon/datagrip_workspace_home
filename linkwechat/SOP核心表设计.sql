@@ -1,7 +1,6 @@
 create table we_sop_base
 (
-    id                        bigint               not null comment '主键'
-        primary key,
+    id                        bigint auto_increment comment '主键' primary key,
     base_type                 tinyint(1) default 1 null comment 'sop基础类型(1:客户sop;2:客群sop)',
     business_type             tinyint(1) default 1 null comment 'sop业务类(1:新客sop;2:活动节日sop;3:客户转化sop;4:新群培育sop;5:周期营销sop;6:特定宣发sop)',
     sop_name                  varchar(40)          null comment 'sop名称',
@@ -20,14 +19,12 @@ create table we_sop_base
     update_by_id              bigint               null comment '更新人id',
     update_time               datetime             null comment '更新时间',
     del_flag                  tinyint    default 0 null comment '删除标识 0 有效 1删除'
-)
-    comment 'Sop base表' charset = utf8
-                         row_format = DYNAMIC;
+) comment 'Sop base表' charset = utf8
+                       row_format = DYNAMIC;
 
 create table we_sop_attachments
 (
-    id               bigint                                  not null comment '主键id'
-        primary key,
+    id               bigint auto_increment comment '主键id' primary key,
     sop_base_id      bigint                                  not null comment 'sop基础id',
     sop_push_time_id bigint                                  null comment '推送时间周期,如果该字段为空，则表示附件素材为sop完成以后需要执行的任务',
     source           tinyint(1) default 1                    null comment '来源 1:手动添加的 2:设置sop结束条件时附加的素材',
@@ -47,9 +44,8 @@ create table we_sop_attachments
     update_by_id     bigint                                  null comment '更新人id',
     update_time      datetime                                null comment '修改时间',
     del_flag         tinyint(1) default 0                    not null comment '删除标识 0 有效 1删除'
-)
-    comment 'sop素材附件' charset = utf8mb4
-                          row_format = DYNAMIC;
+) comment 'sop素材附件' charset = utf8mb4
+                        row_format = DYNAMIC;
 
 create index qr_id_IDX
     on we_sop_attachments (sop_base_id, del_flag);
@@ -57,8 +53,7 @@ create index qr_id_IDX
 
 create table we_sop_execute_target
 (
-    id                               bigint               not null comment '主键'
-        primary key,
+    id                               bigint auto_increment comment '主键' primary key,
     sop_base_id                      bigint               null comment 'sop主键',
     execute_we_user_id               varchar(64)          null comment '执行根据成员id，无论选择部门还是啥最终都落实到具体员工',
     execute_end_time                 datetime             null comment 'sop执行结束时间',
@@ -74,25 +69,21 @@ create table we_sop_execute_target
     update_by_id                     bigint               null comment '更新人id',
     update_time                      datetime             null comment '更新时间',
     del_flag                         tinyint    default 0 null comment '删除标识 0 有效 1删除'
-)
-    comment '目标执行对象表' charset = utf8
-                             row_format = DYNAMIC;
+) comment '目标执行对象表' charset = utf8
+                           row_format = DYNAMIC;
 
 create table we_sop_execute_target_attachments
 (
-    id                bigint               not null comment '主键'
-        primary key,
+    id                bigint auto_increment comment '主键' primary key,
     execute_target_id bigint               null comment '目标执行对象主键',
     sop_attachment_id bigint               null comment '执行内容的主键',
-    push_time_type    tinyint              null comment '推送时间类型(1:特定时间推送，比如2022-08-21推送日期;
-2:周期推送，数字字符串型1-7，对应周一到周日;3:相对推送时间,数字字符串型，比如2022-08-21添加的客户，那么相对这个时间第一天推送，则值为1，但是对应的实际推送时间为，2022-08-22) 注:此处只供前端做展示',
+    push_time_type    tinyint              null comment '推送时间类型(1:特定时间推送，比如2022-08-21推送日期;2:周期推送，数字字符串型1-7，对应周一到周日;3:相对推送时间,数字字符串型，比如2022-08-21添加的客户，那么相对这个时间第一天推送，则值为1，但是对应的实际推送时间为，2022-08-22) 注:此处只供前端做展示',
     push_time_pre     varchar(255)         null comment '推送时间前缀，分为数字型跟日期格式行字符串 注:前端做展示',
     push_start_time   datetime             null comment '推送具体开始时间',
     push_end_time     datetime             null comment '推送具体结束时间',
     execute_time      datetime             null comment '实际推送时间执行完成时间',
     execute_state     tinyint(1) default 0 null comment '执行状态(0:未执行;1:已执行)',
-    send_type         tinyint    default 1 null comment '1:企业微信发送;2:手动发送
-',
+    send_type         tinyint    default 1 null comment '1:企业微信发送;2:手动发送',
     is_push_on_time   tinyint(1)           null comment '是否准时推送(0:准时推送;1:迟到推送;)',
     is_tip            tinyint(1) default 0 null comment '是否发送:0:未发送;1:已发送全局提醒;2:已发送到期提醒',
     msg_id            varchar(64)          null comment '企业群发消息的id，可用于获取群发消息发送结果,手动发送方式没有',
@@ -103,19 +94,16 @@ create table we_sop_execute_target_attachments
     update_by_id      bigint               null comment '更新人id',
     update_time       datetime             null comment '更新时间',
     del_flag          tinyint    default 0 null comment '删除标识 0 有效 1删除'
-)
-    comment '目标执行内容' charset = utf8
-                           row_format = DYNAMIC;
+) comment '目标执行内容' charset = utf8
+                         row_format = DYNAMIC;
 
 create table we_sop_push_time
 (
-    id              bigint               not null comment '主键'
-        primary key,
+    id              bigint auto_increment comment '主键' primary key,
     push_start_time time                 null comment '推送开时间',
     push_end_time   time                 null comment '推送结束时间',
     sop_base_id     bigint               null comment 'sop主键',
-    push_time_type  tinyint              null comment '推送时间类型(1:特定时间推送，比如2022-08-21推送日期;
-2:周期推送，数字字符串型1-7，对应周一到周日;3:相对推送时间,数字字符串型，比如2022-08-21添加的客户，那么相对这个时间第一天推送，则值为1，但是对应的实际推送时间为，2022-08-22)',
+    push_time_type  tinyint              null comment '推送时间类型(1:特定时间推送，比如2022-08-21推送日期;2:周期推送，数字字符串型1-7，对应周一到周日;3:相对推送时间,数字字符串型，比如2022-08-21添加的客户，那么相对这个时间第一天推送，则值为1，但是对应的实际推送时间为，2022-08-22)',
     push_time_pre   varchar(255)         null comment '推送时间前缀，分为数字型跟日期格式行字符串',
     create_by       varchar(255)         null comment '创建人名称',
     create_by_id    bigint               null comment '创建人id',
@@ -124,6 +112,5 @@ create table we_sop_push_time
     update_by_id    bigint               null comment '更新人id',
     update_time     datetime             null comment '更新时间',
     del_flag        tinyint(1) default 0 null comment '删除标识 0 有效 1删除'
-)
-    charset = utf8
-    row_format = DYNAMIC;
+) charset = utf8
+  row_format = DYNAMIC;
