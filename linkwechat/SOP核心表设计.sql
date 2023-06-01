@@ -61,7 +61,7 @@ create table we_sop_execute_target
     target_id                        varchar(64)          null comment '目标id',
     execute_state                    tinyint(1) default 1 null comment 'sop执行的状态(1:进行中;2:提前结束;3:正常结束;4:异常结束)',
     execute_sub_state                tinyint(1) default 0 null comment '0:当前sop下一条任务信息都未推送(待推送);1:当前sop下信息推送完(已推送)',
-    add_customer_or_create_goup_time datetime             null comment '执行人添加该客户的时间或创建该群时间',
+    add_customer_or_create_group_time datetime             null comment '执行人添加该客户的时间或创建该群时间',
     create_by                        varchar(255)         null comment '创建人名称',
     create_by_id                     bigint               null comment '创建人id',
     create_time                      datetime             null comment '创建时间',
